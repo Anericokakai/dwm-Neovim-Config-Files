@@ -1,0 +1,32 @@
+--- Neovim Keybindings Reference ---
+
+--- Window Navigation ---
+<leader>sv    : Vertical split window
+<leader>sh    : Horizontal split window
+<leader>wh    : Move to the left window
+<leader>wl    : Move to the right window
+<leader>wj    : Move to the lower window
+<leader>wk    : Move to the upper window
+
+--- Resizing Windows ---
+<C-Up>       : Increase window height
+<C-Down>     : Decrease window height
+<C-Left>     : Decrease window width
+<C-Right>    : Increase window width
+
+--- File Operations ---
+<leader>w    : Save the file
+<leader>q    : Quit Neovim
+<leader>x    : Save and quit Neovim
+
+--- Hotkeys File ---
+<leader>hk   : Open hotkeys reference file in a vertical split
+
+--- Copy and Paste ---
+<C-c>        : Copy selected text to clipboard
+<C-v>        : Paste from clipboard
+
+--- File Explorer ---
+<leader>pv   : Open file explorer (command line)
+<leader>e    : Toggle file explorer (Lex 30)
+ 
