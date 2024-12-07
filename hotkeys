@@ -29,4 +29,13 @@
 --- File Explorer ---
 <leader>pv   : Open file explorer (command line)
 <leader>e    : Toggle file explorer (Lex 30)
+<leader>l     :"Lint file mannually"
+gcc           : comment line in insert mode
+gc            :comment line in normal mode
+gb            :comment a block of code multi comment
+<leader>gs    :git status show
+CTRL \        :open terminal
+<leader>tn     : open dynamic terminals
+<leader>tt     :switch between the terminals 
+
  

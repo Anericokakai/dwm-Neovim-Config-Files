@@ -1,113 +1,199 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-  if vim.v.shell_error ~= 0 then
-    vim.api.nvim_echo({
-      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out, "WarningMsg" },
-      { "\nPress any key to exit..." },
-    }, true, {})
-    vim.fn.getchar()
-    os.exit(1)
-  end
+	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+	if vim.v.shell_error ~= 0 then
+		vim.api.nvim_echo({
+			{ "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+			{ out, "WarningMsg" },
+			{ "\nPress any key to exit..." },
+		}, true, {})
+		vim.fn.getchar()
+		os.exit(1)
+	end
 end
 vim.opt.rtp:prepend(lazypath)
 
-
 vim.g.mapleader = " "
 
-local plugins={
+local plugins = {
+	-- Auto pairs
+	{
+		"windwp/nvim-autopairs",
+	},
+	{
+		"craftzdog/solarized-osaka.nvim",
+		lazy = false,
+		priority = 1000,
+	},
 
+	{
+		"nvim-telescope/telescope.nvim",
+		version = "0.1.8",
+		-- or                            , branch = '0.1.x',
+		dependecies = { { "nvim-lua/plenary.nvim" } },
+	},
+	"nvim-telescope/telescope-ui-select.nvim",
 
+	--- default color theme
+	-- { 'projekt0n/github-nvim-theme' },
 
-   {
-  'nvim-telescope/telescope.nvim', version = '0.1.8',
--- or                            , branch = '0.1.x',
-  dependecies = { {'nvim-lua/plenary.nvim'} }
-},
-    'nvim-telescope/telescope-ui-select.nvim',
-{ 'projekt0n/github-nvim-theme' },
+	"nvim-treesitter/nvim-treesitter",
+	build = ":TSUpdate",
+	"nvim-treesitter/playground",
+	"mbbill/undotree",
 
-  'nvim-treesitter/nvim-treesitter', build= ':TSUpdate',
- 'nvim-treesitter/playground',
- 'mbbill/undotree',
+	--cmp plugins
+	"hrsh7th/cmp-buffer",
+	"hrsh7th/cmp-path",
+	"hrsh7th/cmp-cmdline",
+	"hrsh7th/nvim-cmp",
+	"hrsh7th/cmp-nvim-lsp",
+	{
+		"nvimtools/none-ls.nvim",
+		dependencies = {
+			"nvimtools/none-ls-extras.nvim",
+		},
+	},
+	----vim fugitive run git commands in vim
+	"tpope/vim-fugitive",
+	"tpope/vim-rhubarb",
+	-- change trouble config
+	{
+		"folke/trouble.nvim",
+		-- opts will be merged with the parent spec
+		opts = { use_diagnostic_signs = true },
+	},
 
- --cmp plugins
-'hrsh7th/cmp-buffer',
- 'hrsh7th/cmp-path',
- 'hrsh7th/cmp-cmdline',
- 'hrsh7th/nvim-cmp',
- 'hrsh7th/cmp-nvim-lsp'
-    ,
+	-- disable trouble
+	--{ "folke/trouble.nvim", enabled = false },
 
- 'nvimtools/none-ls.nvim',
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		main = "ibl",
+	},
 
+	-- conform nvim
+	{
+		"stevearc/conform.nvim",
+		event = { "BufReadPre", "BufNewFile" },
+	},
+	--snippets
+	{
+		"L3MON4D3/LuaSnip",
+		dependencies = { "rafamadriz/friendly-snippets", "saadparwaiz1/cmp_luasnip" },
 
+		config = function()
+			require("luasnip.loaders.from_vscode").lazy_load() -- Lazy load the snippets
+		end,
+	},
+	{ "rafamadriz/friendly-snippets" },
 
+	{
+		"nvim-lualine/lualine.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+	},
 
---snippets
-{
-  "L3MON4D3/LuaSnip",
-  dependencies = { "rafamadriz/friendly-snippets",'saadparwaiz1/cmp_luasnip' , },
+	--Language support
 
-  config = function()
-    require("luasnip.loaders.from_vscode").lazy_load() -- Lazy load the snippets
-  end,
+	"neovim/nvim-lspconfig",
+	"williamboman/nvim-lsp-installer",
 
-},
-{ "rafamadriz/friendly-snippets" },
+	--auto close html tags
+	{
+		"windwp/nvim-ts-autotag",
+		ft = {
+			"javascript",
+			"javascriptreact",
+			"typescript",
+			"typescriptreact",
+		},
+		config = function()
+			require("nvim-ts-autotag").setup()
+		end,
+	},
 
+	{
+		"williamboman/mason.nvim",
+		dependencies = {
+			"williamboman/mason-lspconfig.nvim",
+			"WhoIsSethDaniel/mason-tool-installer.nvim",
+		},
+	},
+	{
+		"folke/noice.nvim",
+		event = "VeryLazy",
+		opts = {
+			-- add any options here
+		},
+		dependencies = {
+			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+			"MunifTanjim/nui.nvim",
+			-- OPTIONAL:
+			--   `nvim-notify` is only needed, if you want to use the notification view.
+			--   If not available, we use `mini` as the fallback
+			"rcarriga/nvim-notify",
+		},
+	},
+	{
+		"nvim-neo-tree/neo-tree.nvim",
+		branch = "v3.x",
+		dependencies = {
 
-    {
-    'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' }
-},
+			"nvim-lua/plenary.nvim",
+			"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+			"MunifTanjim/nui.nvim",
+			-- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+		},
+	},
+	--- Linters
+	{ "mfussenegger/nvim-lint", event = { "BufReadPre", "BufNewFile" } },
+	--- git signs
+	"lewis6991/gitsigns.nvim",
 
+	-- toggle Term
 
---Language support 
+	--better comments in neovim
+	-- add this to your lua/plugins.lua, lua/plugins/init.lua,  or the file you keep your other plugins:
+	{
+		"numToStr/Comment.nvim",
+	},
+	"JoosepAlviste/nvim-ts-context-commentstring",
 
-"neovim/nvim-lspconfig",
-'williamboman/nvim-lsp-installer'
-    ,
+	{ "akinsho/toggleterm.nvim", version = "*" },
+	-- Alpha Tree sitter
 
-'williamboman/mason.nvim'
-,
-"williamboman/mason-lspconfig.nvim", -- lazy.nvim
-{
-  "folke/noice.nvim",
-  event = "VeryLazy",
-  opts = {
-    -- add any options here
-  },
-  dependencies = {
-    -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-    "MunifTanjim/nui.nvim",
-    -- OPTIONAL:
-    --   `nvim-notify` is only needed, if you want to use the notification view.
-    --   If not available, we use `mini` as the fallback
-    "rcarriga/nvim-notify",
-    }
-},
-{
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-      "MunifTanjim/nui.nvim",
-      -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
-    }
-},
-    -- Alpha Tree sitter
-
-    {
-    'goolord/alpha-nvim',
-    config = function ()
-        require'alpha'.setup(require'alpha.themes.dashboard'.config)
-    end
+	{
+		"goolord/alpha-nvim",
+		config = function()
+			local alpha = require("alpha")
+			local dashboard = require("alpha.themes.dashboard")
+			dashboard.section.header.val = {
+				[[⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡠⠤⠒⠈⠉⠉⠉⠉⠉⠉⠐⠢⢄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀]],
+				[[⠀⠀⠀⠀⠀⠀⠀⣠⠖⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠑⢦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀]],
+				[[⠀⠀⠀⠀⠀⡠⠞⡁⠀⠀⠀⠀⣀⣠⢠⣀⣀⣀⣤⣠⣀⡀⠀⠀⢠⣀⠑⡄⠀⠀⠀⠀⠀⠀⠀⠀]],
+				[[⠀⠀⠀⠀⣰⠃⠀⣷⣶⡀⠀⣹⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⢿⣶⣿⣿⣤⠘⡆⠀⠀⠀⠀⠀⠀⠀]],
+				[[⠀⠀⠀⢰⠇⠀⢠⡹⣿⣿⣿⣿⡿⠟⠛⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠑⠛⠦⣄⡀⠀⠀⠀⠀]],
+				[[⠀⠀⠀⢸⠀⠀⢠⣽⡿⠟⠋⠠⠂⣀⣤⣶⣾⣿⣿⣿⣿⡿⢿⣶⣦⣄⢀⣄⡀⠀⣤⡍⠓⢦⡀⠀]],
+				[[⠀⠀⠀⢸⠀⡨⢞⣁⣴⣶⣶⣶⣿⣿⣿⡿⠃⡿⢻⣿⡿⠁⠈⢻⡍⢿⣿⣝⡻⢿⣅⠀⠀⠀⠙⡄]],
+				[[⠀⠀⠀⣨⠟⠁⢺⡿⢋⣾⣿⣿⣿⣿⡿⠁⢰⠃⢸⡿⠁⠀⠀⠸⡇⠀⢿⣿⣿⣦⣉⠀⠀⠀⠀⢸]],
+				[[⠀⣠⠞⠁⠀⠀⠀⣠⣿⣿⣿⡿⢹⣿⠁⠀⠈⢀⡞⢀⣀⡀⠀⠀⠁⠀⠘⣿⣿⣅⣤⣄⠀⠀⢀⡞]],
+				[[⢰⠃⠀⣠⣄⠀⢰⣿⣿⣿⣿⠃⢸⠷⣤⣀⣀⣈⣡⠟⢇⣁⣀⣤⣂⡀⠀⢻⣿⣿⣿⣿⠀⣠⠎⠀]],
+				[[⢠⡇⠀⢰⣿⣟⠀⣾⣿⣿⣿⣿⠀⠺⠿⠿⠬⠛⠿⠋⠀⠞⠙⣿⣿⣿⡋⠀⣾⣿⣤⣿⡡⠞⠁⠀⠀]],
+				[[⠈⡇⠀⢸⣿⣿⣳⢿⣿⣿⢿⡟⠀⠀⠀⠀⢀⡀⠰⠦⠀⢸⠿⠢⢍⡉⠁⢰⣳⡯⠛⠉⠀⠀⠀⠀⠀]],
+				[[⠱⡀⢼⣿⣿⣯⠼⢿⡹⢯⣿⠀⠀⠀⠔⠉⠀⢀⣀⣀⣀⡀⠀⠀⠱⠀⢸⠏⠀FOR FUCK'S SAKE!]],
+				[[⠀⠳⣌⡛⠛⣧⣤⣼⣏⣙⣾⣇⠀⠀⢀⠴⠊⢁⡤⡤⣤⣈⠑⠲⢄⠀⡎⠀THE TIME HE WASTES]],
+				[[⠀⠀⠀⠉⠉⠁⠉⠀⠀⠀⠀⠈⠳⣤⣄⡤⠊⠁⠘⠀⠇⠛⢉⣲⠞⠋⠀IN RICING NVIM IS]],
+				[[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⠿⣽⣿⣶⣾⣿⢿⡏⠀DRIVING ME CRAZY.]],
+				[[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⠀⠀⠈⠙⣿⣿⡼⣧⣤⡀⠀WHAT'S THE MATTER⠀]],
+				[[⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣶⣶⣿⣿⣧⠀⠀⠀⠀⠈⠉⠁⠈⢙⣿⣷⣶⣤⣄⠀WITH HIM ??????]],
+				[[⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣷⠀⠀⠀⠀⠀⠀⢴⣾⣿⣿⣿⣿⣿⣷⡄⠀⠀⠀⠀⠀]],
+				[[⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⡀⠀FUCKING KILL IT]],
+			}
+			alpha.setup(dashboard.opts)
+			vim.api.nvim_set_hl(0, "DashboardHeader", { fg = "#FF6347", bg = "NONE", bold = true })
+		end,
+	},
 }
 
-}
-
-require("lazy").setup(plugins,{})
+require("lazy").setup(plugins, {})
