@@ -19,6 +19,9 @@
 <leader>q    : Quit Neovim
 <leader>x    : Save and quit Neovim
 
+---selected between kitty files 
+ kitty +kitten themes
+
 --- Hotkeys File ---
 <leader>hk   : Open hotkeys reference file in a vertical split
 
@@ -38,4 +41,6 @@ CTRL \        :open terminal
 <leader>tn     : open dynamic terminals
 <leader>tt     :switch between the terminals 
 
- 
+
+:lua print(vim.inspect(vim.diagnostic.get(0)))
+

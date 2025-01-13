@@ -7,7 +7,9 @@ require("mason-lspconfig").setup({
 		"css_variables",
 		"cssls",
 		"ts_ls",
-		"eslint-lsp",
+		"eslint",
+		"html",
+		"emmet_ls ",
 	},
 
 	automatic_installation = true,

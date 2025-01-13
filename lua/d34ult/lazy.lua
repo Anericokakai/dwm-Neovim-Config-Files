@@ -162,7 +162,23 @@ local plugins = {
 
 	{ "akinsho/toggleterm.nvim", version = "*" },
 	-- Alpha Tree sitter
-
+	-- magick rock installation---
+	{
+		"vhyrro/luarocks.nvim",
+		priority = 1000, -- Very high priority is required, luarocks.nvim should run as the first plugin in your config.
+		config = true,
+	},
+	--nvim image configuration --
+	{
+		"3rd/image.nvim",
+		dependencies = { "luarocks.nvim" },
+		config = function()
+			require("image").setup({
+				backend = "kitty",
+				hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp", "*.svg" },
+			})
+		end,
+	},
 	{
 		"goolord/alpha-nvim",
 		config = function()
