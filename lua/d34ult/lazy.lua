@@ -21,12 +21,22 @@ local plugins = {
 	{
 		"windwp/nvim-autopairs",
 	},
-	{
+	--[[ {
 		"craftzdog/solarized-osaka.nvim",
 		lazy = false,
 		priority = 1000,
-	},
+	}, ]]
 
+	{
+		"tiagovla/tokyodark.nvim",
+		opts = {
+			-- custom options here
+		},
+		config = function(_, opts)
+			require("tokyodark").setup(opts) -- calling setup is optional
+			vim.cmd([[colorscheme tokyodark]])
+		end,
+	},
 	{
 		"nvim-telescope/telescope.nvim",
 		version = "0.1.8",
