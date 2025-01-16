@@ -1,4 +1,4 @@
---[[ local ok, solarized_osaka = pcall(require, "solarized-osaka")
+local ok, solarized_osaka = pcall(require, "solarized-osaka")
 if not ok then
 	vim.notify("Failed to load solarized-osaka plugin", vim.log.levels.ERROR)
 	return
@@ -7,7 +7,7 @@ end
 solarized_osaka.setup({
 	transparent = true,
 })
-vim.cmd("colorscheme solarized-osaka") ]]
+vim.cmd("colorscheme solarized-osaka")
 
 --function ColorMyPencils(color)
 -- color=color or "github_dark_default"

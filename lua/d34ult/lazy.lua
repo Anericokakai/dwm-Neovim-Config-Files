@@ -21,22 +21,12 @@ local plugins = {
 	{
 		"windwp/nvim-autopairs",
 	},
-	--[[ {
+	{
 		"craftzdog/solarized-osaka.nvim",
 		lazy = false,
 		priority = 1000,
-	}, ]]
-
-	{
-		"tiagovla/tokyodark.nvim",
-		opts = {
-			-- custom options here
-		},
-		config = function(_, opts)
-			require("tokyodark").setup(opts) -- calling setup is optional
-			vim.cmd([[colorscheme tokyodark]])
-		end,
 	},
+
 	{
 		"nvim-telescope/telescope.nvim",
 		version = "0.1.8",
@@ -124,6 +114,15 @@ local plugins = {
 	},
 
 	{
+		"altermo/ultimate-autopair.nvim",
+		event = { "InsertEnter", "CmdlineEnter" },
+		branch = "v0.6", --recommended as each new version will have breaking changes
+		opts = {
+			--Config goes here
+		},
+	},
+
+	{
 		"williamboman/mason.nvim",
 		dependencies = {
 			"williamboman/mason-lspconfig.nvim",
@@ -188,6 +187,59 @@ local plugins = {
 				hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp", "*.svg" },
 			})
 		end,
+	},
+
+	{
+		"folke/trouble.nvim",
+		opts = {}, -- for default options, refer to the configuration section for custom setup.
+		cmd = "Trouble",
+		modes = {
+			preview_float = {
+				mode = "diagnostics",
+				preview = {
+					type = "float",
+					relative = "editor",
+					border = "rounded",
+					title = "Preview",
+					title_pos = "center",
+					position = { 0, -2 },
+					size = { width = 0.3, height = 0.3 },
+					zindex = 200,
+				},
+			},
+		},
+		keys = {
+			{
+				"<leader>xx",
+				"<cmd>Trouble diagnostics toggle<cr>",
+				desc = "Diagnostics (Trouble)",
+			},
+			{
+				"<leader>xX",
+				"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+				desc = "Buffer Diagnostics (Trouble)",
+			},
+			{
+				"<leader>cs",
+				"<cmd>Trouble symbols toggle focus=false<cr>",
+				desc = "Symbols (Trouble)",
+			},
+			{
+				"<leader>cl",
+				"<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+				desc = "LSP Definitions / references / ... (Trouble)",
+			},
+			{
+				"<leader>xL",
+				"<cmd>Trouble loclist toggle<cr>",
+				desc = "Location List (Trouble)",
+			},
+			{
+				"<leader>xQ",
+				"<cmd>Trouble qflist toggle<cr>",
+				desc = "Quickfix List (Trouble)",
+			},
+		},
 	},
 	{
 		"goolord/alpha-nvim",
