@@ -44,5 +44,6 @@
   "ultimate-autopair.nvim": { "branch": "v0.6", "commit": "9e3209190c22953566ae4e6436ad2b4ff4dabb95" },
   "undotree": { "branch": "master", "commit": "2556c6800b210b2096b55b66e74b4cc1d9ebbe4f" },
   "vim-fugitive": { "branch": "master", "commit": "174230d6a7f2df94705a7ffd8d5413e27ec10a80" },
-  "vim-rhubarb": { "branch": "master", "commit": "386daa2e9d98e23e27ad089afcbe5c5a903e488d" }
+  "vim-rhubarb": { "branch": "master", "commit": "386daa2e9d98e23e27ad089afcbe5c5a903e488d" },
+  "vim-visual-multi": { "branch": "master", "commit": "a6975e7c1ee157615bbc80fc25e4392f71c344d4" }
 }

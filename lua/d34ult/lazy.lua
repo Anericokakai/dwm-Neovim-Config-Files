@@ -242,6 +242,13 @@ local plugins = {
 		},
 	},
 	{
+		"mg979/vim-visual-multi",
+		branch = "master",
+		config = function()
+			-- No extra config needed; defaults work well
+		end,
+	},
+	{
 		"goolord/alpha-nvim",
 		config = function()
 			local alpha = require("alpha")
